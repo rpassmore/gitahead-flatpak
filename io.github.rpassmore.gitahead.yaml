@@ -1,0 +1,59 @@
+app-id: io.github.rpassmore.gitahead
+runtime: org.kde.Platform
+runtime-version: '5.14'
+sdk: org.kde.Sdk
+command: GitAhead
+rename-icon: gitahead
+finish-args:
+  - --socket=x11
+  - --socket=wayland
+  - --share=network  
+  - --filesystem=home  
+cleanup:
+  - /include
+  - /lib/pkgconfig
+  - /share/man
+  - /share/pkgconfig
+  - /share/doc
+  - /share/info
+  - /share/aclocal
+  - /lib/pkgconfig
+  - "*.a"
+  - "*.l"
+  - "*.h"
+modules:
+  - name: gitahead
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_INSTALL_PREFIX=/app/bin
+    builddir: true
+    build-commands:      
+      - install -Dm755 ../rsrc/GitAhead.iconset/icon_16x16.png /app/share/icons/hicolor/16x16/apps/gitahead.png
+      - install -Dm755 ../rsrc/GitAhead.iconset/icon_16x16@2x.png /app/share/icons/hicolor/16x16@2x/apps/gitahead.png
+      - install -Dm755 ../rsrc/GitAhead.iconset/icon_32x32.png /app/share/icons/hicolor/32x32/apps/gitahead.png
+      - install -Dm755 ../rsrc/GitAhead.iconset/icon_32x32@2x.png /app/share/icons/hicolor/32x32@2x/apps/gitahead.png
+      - install -Dm755 ../rsrc/GitAhead.iconset/icon_64x64.png /app/share/icons/hicolor/64x64/apps/gitahead.png
+      - install -Dm755 ../rsrc/GitAhead.iconset/icon_64x64@2x.png /app/share/icons/hicolor/64x64@2x/apps/gitahead.png
+      - install -Dm755 ../rsrc/GitAhead.iconset/icon_128x128.png /app/share/icons/hicolor/128x128/apps/gitahead.png
+      - install -Dm755 ../rsrc/GitAhead.iconset/icon_128x128@2x.png /app/share/icons/hicolor/128x128@2x/apps/gitahead.png
+      - install -Dm755 ../rsrc/GitAhead.iconset/icon_256x256.png /app/share/icons/hicolor/256x256/apps/gitahead.png
+      - install -Dm755 ../rsrc/GitAhead.iconset/icon_256x256@2x.png /app/share/icons/hicolor/256x256@2x/apps/gitahead.png
+      - install -Dm755 ../rsrc/GitAhead.iconset/icon_512x512.png /app/share/icons/hicolor/512x512/apps/gitahead.png
+    sources:
+      - type: git
+        url: https://github.com/gitahead/gitahead
+        tag: v2.6.3
+        commit: 74fb54498026b054c9a32b0ad5980549a10d03d0
+  - name: desktop-setup
+    buildsystem: simple
+    build-commands:
+      - pwd
+      - ls
+      - desktop-file-install --dir=/app/share/applications io.github.rpassmore.gitahead.desktop
+      - install -Dm755 io.github.rpassmore.gitahead.appdata.xml /app/share/appdata/io.github.rpassmore.gitahead.appdata.xml
+    sources:
+      - type: file
+        path: io.github.rpassmore.gitahead.desktop
+      - type: file
+        path: io.github.rpassmore.gitahead.appdata.xml
+        
